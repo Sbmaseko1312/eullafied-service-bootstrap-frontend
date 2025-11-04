@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Performance | Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div id="sidebar">
+    <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <h4 style="margin: 0; font-weight: 700; font-size: 1.25rem;">
+        <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>Admin Panel
+      </h4>
+    </div>
+    <nav>
+      <a href="admin-dashboard.html"><i class="fas fa-tachometer-alt" style="margin-right: 10px;"></i>Dashboard</a>
+      <div style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">User Management</div>
+      <a href="manage-users.html"><i class="fas fa-users-cog" style="margin-right: 10px;"></i>Manage Users</a>
+      <a href="manage-roles.html"><i class="fas fa-user-shield" style="margin-right: 10px;"></i>Roles</a>
+      <a href="manage-departments.html"><i class="fas fa-building" style="margin-right: 10px;"></i>Departments</a>
+      <div style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Ticket Management</div>
+      <a href="manage-tickets.html"><i class="fas fa-ticket-alt" style="margin-right: 10px;"></i>All Tickets</a>
+      <a href="manage-categories.html"><i class="fas fa-folder-open" style="margin-right: 10px;"></i>Categories</a>
+      <a href="manage-priorities.html"><i class="fas fa-flag" style="margin-right: 10px;"></i>Priorities</a>
+      <a href="manage-status.html"><i class="fas fa-info-circle" style="margin-right: 10px;"></i>Status Types</a>
+      <a href="manage-assignments.html"><i class="fas fa-tasks" style="margin-right: 10px;"></i>Assignments</a>
+      <div style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Analytics</div>
+      <a href="staff-performance.html" style="background: rgba(37, 99, 235, 0.2); border-left-color: #2563eb;"><i class="fas fa-chart-line" style="margin-right: 10px;"></i>Staff Performance</a>
+      <a href="system-reports.html"><i class="fas fa-file-chart-pie" style="margin-right: 10px;"></i>Reports</a>
+      <div style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">System</div>
+      <a href="admin-settings.html"><i class="fas fa-cog" style="margin-right: 10px;"></i>Settings</a>
+      <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i>Logout</a>
+    </nav>
+  </div>
+
+  <div id="content">
+    <div class="page-header">
+      <h1><i class="fas fa-chart-line" style="margin-right: 12px; color: #2563eb;"></i>Staff Performance Metrics</h1>
+      <div class="user-info"><i class="fas fa-user-shield" style="margin-right: 6px;"></i><span id="username">Administrator</span></div>
+    </div>
+
+    <!-- Date Range Filter -->
+    <div class="filter-bar">
+      <div style="min-width: 200px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 5px;"><i class="fas fa-calendar"></i> From Date</label>
+        <input type="date" id="fromDate" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;" onchange="filterPerformance()">
+      </div>
+      <div style="min-width: 200px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 5px;"><i class="fas fa-calendar"></i> To Date</label>
+        <input type="date" id="toDate" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;" onchange="filterPerformance()">
+      </div>
+      <div style="min-width: 200px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 5px;"><i class="fas fa-user"></i> Staff Member</label>
+        <select id="staffFilter" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;" onchange="filterPerformance()">
+          <option value="all">All Staff</option>
+        </select>
+      </div>
+      <div style="align-self: flex-end;">
+        <button onclick="exportPerformance()" style="background: #8b5cf6; border: none; color: white; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;">
+          <i class="fas fa-download" style="margin-right: 6px;"></i>Export
+        </button>
+      </div>
+    </div>
+
+    <!-- Performance Chart -->
+    <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 25px;">
+      <h2 style="font-size: 1.375rem; font-weight: 700; margin-bottom: 25px; color: #0f172a;">
+        <i class="fas fa-chart-area" style="margin-right: 10px; color: #2563eb;"></i>Resolution Trend
+      </h2>
+      <canvas id="performanceChart" height="80"></canvas>
+    </div>
+
+    <!-- Performance Table -->
+    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <div style="padding: 20px; border-bottom: 2px solid #e2e8f0;">
+        <h2 style="font-size: 1.375rem; font-weight: 700; margin: 0; color: #0f172a;">
+          <i class="fas fa-table" style="margin-right: 10px; color: #2563eb;"></i>Detailed Metrics
+        </h2>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th><i class="fas fa-user"></i> Staff Member</th>
+            <th><i class="fas fa-calendar"></i> Date</th>
+            <th><i class="fas fa-check-circle"></i> Tickets Resolved</th>
+            <th><i class="fas fa-clock"></i> Avg Resolution Time</th>
+            <th><i class="fas fa-trophy"></i> Performance Score</th>
+          </tr>
+        </thead>
+        <tbody id="performanceTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="../../js/auth.js"></script>
+  <script src="staff-performance.js"></script>
+  
+</body>
+</html>

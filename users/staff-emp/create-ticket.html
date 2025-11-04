@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ticket | Ticket Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/staff-emp.css">
+     <script src="js/staff-emp-sidebar.js"></script>
+</head>
+
+<body>
+  
+
+    <div id="content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-plus-circle" style="margin-right: 12px; color: #2563eb;"></i>Create New Ticket</h1>
+            <div class="user-info">
+                <i class="fas fa-user-circle" style="margin-right: 6px;"></i>
+                <span id="username"></span>
+            </div>
+        </div>
+
+        <!-- Create Ticket Form -->
+        <form onsubmit="event.preventDefault(); createTicket();">
+            <div class="form-header">
+                <h2><i class="fas fa-ticket-alt" style="margin-right: 10px;"></i>Ticket Information</h2>
+            </div>
+
+            <div>
+                <label for="description">
+                    <i class="fas fa-align-left" style="margin-right: 6px; color: #64748b;"></i>Description
+                </label>
+                <textarea id="description" required placeholder="Enter detailed ticket description..."></textarea>
+            </div>
+
+            <div>
+                <label for="category">
+                    <i class="fas fa-folder" style="margin-right: 6px; color: #64748b;"></i>Category
+                </label>
+                <select id="category" required>
+                    <option value="">Select a category...</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="priority">
+                    <i class="fas fa-flag" style="margin-right: 6px; color: #64748b;"></i>Priority
+                </label>
+                <select id="priority" required>
+                    <option value="">Select priority level...</option>
+                </select>
+            </div>
+
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e2e8f0;">
+                <button type="submit">
+                    <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>Create Ticket
+                </button>
+                <button type="reset" style="background: #64748b; margin-left: 10px;"
+                    onmouseover="this.style.background='#475569'" onmouseout="this.style.background='#64748b'">
+                    <i class="fas fa-undo" style="margin-right: 8px;"></i>Reset Form
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <script src="../../js/auth.js"></script>
+    <script src="create-ticket.js"></script>
+
+</body>
+
+</html>

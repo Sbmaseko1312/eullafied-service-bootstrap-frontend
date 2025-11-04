@@ -1,0 +1,493 @@
+<!-- ================================
+     SETTINGS PAGE (settings.html)
+     ================================ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Ticket Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/staff-emp.css">
+    <style>
+        .info-field {
+            background: #f8fafc;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-field-label {
+            font-weight: 600;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .info-field-value {
+            font-size: 1.05rem;
+            color: #0f172a;
+            font-weight: 500;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #2563eb;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+            background: #e2e8f0;
+        }
+
+        .password-strength.weak {
+            width: 33%;
+            background: #ef4444;
+        }
+
+        .password-strength.medium {
+            width: 66%;
+            background: #f59e0b;
+        }
+
+        .password-strength.strong {
+            width: 100%;
+            background: #10b981;
+        }
+
+        .alert-custom {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            color: #065f46;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Content -->
+    <div id="content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-cog" style="margin-right: 12px; color: #2563eb;"></i>Account Settings</h1>
+            <div class="user-info">
+                <i class="fas fa-user-circle" style="margin-right: 6px;"></i>
+                <span id="username"></span>
+            </div>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="successAlert" class="alert-custom alert-success">
+            <i class="fas fa-check-circle" style="font-size: 1.25rem;"></i>
+            <span id="successMessage"></span>
+        </div>
+
+        <div id="errorAlert" class="alert-custom alert-error">
+            <i class="fas fa-exclamation-circle" style="font-size: 1.25rem;"></i>
+            <span id="errorMessage"></span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+
+            <!-- Profile Information Section -->
+            <div>
+                <div
+                    style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div class="form-header" style="margin: -30px -30px 25px -30px; padding: 20px 30px;">
+                        <h2><i class="fas fa-user" style="margin-right: 10px;"></i>Profile Information</h2>
+                    </div>
+
+                    <div class="info-field">
+                        <div>
+                            <div class="info-field-label">
+                                <i class="fas fa-user" style="margin-right: 6px;"></i>First Name
+                            </div>
+                            <div class="info-field-value" id="displayName">-</div>
+                        </div>
+                        <i class="fas fa-lock" style="color: #cbd5e1; font-size: 1.2rem;" title="Read-only field"></i>
+                    </div>
+
+                    <div class="info-field">
+                        <div>
+                            <div class="info-field-label">
+                                <i class="fas fa-user-tag" style="margin-right: 6px;"></i>Surname
+                            </div>
+                            <div class="info-field-value" id="displaySurname">-</div>
+                        </div>
+                        <i class="fas fa-lock" style="color: #cbd5e1; font-size: 1.2rem;" title="Read-only field"></i>
+                    </div>
+
+                    <div class="info-field">
+                        <div>
+                            <div class="info-field-label">
+                                <i class="fas fa-envelope" style="margin-right: 6px;"></i>Email Address
+                            </div>
+                            <div class="info-field-value" id="displayEmail">-</div>
+                        </div>
+                        <i class="fas fa-lock" style="color: #cbd5e1; font-size: 1.2rem;" title="Read-only field"></i>
+                    </div>
+
+                    <div class="info-field">
+                        <div>
+                            <div class="info-field-label">
+                                <i class="fas fa-id-badge" style="margin-right: 6px;"></i>Role
+                            </div>
+                            <div class="info-field-value" id="displayRole">-</div>
+                        </div>
+                        <i class="fas fa-lock" style="color: #cbd5e1; font-size: 1.2rem;" title="Read-only field"></i>
+                    </div>
+
+                    <div class="info-field">
+                        <div>
+                            <div class="info-field-label">
+                                <i class="fas fa-building" style="margin-right: 6px;"></i>Department
+                            </div>
+                            <div class="info-field-value" id="displayDepartment">-</div>
+                        </div>
+                        <i class="fas fa-lock" style="color: #cbd5e1; font-size: 1.2rem;" title="Read-only field"></i>
+                    </div>
+
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid #e2e8f0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="info-field-label">
+                                    <i class="fas fa-clock" style="margin-right: 6px;"></i>Account Created
+                                </div>
+                                <div class="info-field-value" id="displayCreated" style="font-size: 0.95rem;">-</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="info-field-label">
+                                    <i class="fas fa-sync-alt" style="margin-right: 6px;"></i>Last Updated
+                                </div>
+                                <div class="info-field-value" id="displayUpdated" style="font-size: 0.95rem;">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 20px; padding: 15px; background: #eff6ff; border-radius: 8px; border-left: 4px solid #2563eb;">
+                        <p style="margin: 0; font-size: 0.9rem; color: #1e40af;">
+                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                            <strong>Note:</strong> To update your profile information, please contact your system
+                            administrator.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change Password Section -->
+            <div>
+                <div
+                    style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div class="form-header" style="margin: -30px -30px 25px -30px; padding: 20px 30px;">
+                        <h2><i class="fas fa-key" style="margin-right: 10px;"></i>Change Password</h2>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); updatePassword();">
+                        <div style="margin-bottom: 20px;">
+                            <label for="currentPassword"
+                                style="display: block; font-weight: 600; margin-bottom: 8px; color: #0f172a; font-size: 0.95rem;">
+                                <i class="fas fa-lock" style="margin-right: 6px; color: #64748b;"></i>Current Password
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="currentPassword" required
+                                    placeholder="Enter your current password"
+                                    style="width: 100%; padding: 12px 45px 12px 16px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 0.95rem; transition: all 0.3s ease; background: #f8fafc;">
+                                <i class="fas fa-eye password-toggle"
+                                    onclick="togglePassword('currentPassword', this)"></i>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label for="newPassword"
+                                style="display: block; font-weight: 600; margin-bottom: 8px; color: #0f172a; font-size: 0.95rem;">
+                                <i class="fas fa-key" style="margin-right: 6px; color: #64748b;"></i>New Password
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="newPassword" required placeholder="Enter your new password"
+                                    style="width: 100%; padding: 12px 45px 12px 16px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 0.95rem; transition: all 0.3s ease; background: #f8fafc;"
+                                    oninput="checkPasswordStrength()">
+                                <i class="fas fa-eye password-toggle" onclick="togglePassword('newPassword', this)"></i>
+                            </div>
+                            <div id="passwordStrength" class="password-strength"></div>
+                            <p id="strengthText" style="margin: 8px 0 0 0; font-size: 0.85rem; color: #64748b;"></p>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label for="confirmPassword"
+                                style="display: block; font-weight: 600; margin-bottom: 8px; color: #0f172a; font-size: 0.95rem;">
+                                <i class="fas fa-check-circle" style="margin-right: 6px; color: #64748b;"></i>Confirm
+                                New Password
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="confirmPassword" required
+                                    placeholder="Confirm your new password"
+                                    style="width: 100%; padding: 12px 45px 12px 16px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 0.95rem; transition: all 0.3s ease; background: #f8fafc;">
+                                <i class="fas fa-eye password-toggle"
+                                    onclick="togglePassword('confirmPassword', this)"></i>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e2e8f0;">
+                            <button type="submit"
+                                style="width: 100%; background: #2563eb; border: none; color: white; padding: 14px 24px; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.08);"
+                                onmouseover="this.style.background='#1d4ed8'; this.style.transform='translateY(-1px)'"
+                                onmouseout="this.style.background='#2563eb'; this.style.transform='translateY(0)'">
+                                <i class="fas fa-save" style="margin-right: 8px;"></i>Update Password
+                            </button>
+                        </div>
+                    </form>
+
+                    <div
+                        style="margin-top: 25px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <p style="margin: 0 0 10px 0; font-weight: 600; color: #92400e; font-size: 0.9rem;">
+                            <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>Password Requirements:
+                        </p>
+                        <ul style="margin: 0; padding-left: 20px; color: #78350f; font-size: 0.85rem;">
+                            <li>Minimum 8 characters long</li>
+                            <li>Include uppercase and lowercase letters</li>
+                            <li>Include at least one number</li>
+                            <li>Include at least one special character</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/staff-emp.js"></script>
+    <script src="js/staff-emp-sidebar.js"></script>
+    <script>
+        // Display current user info
+        function displayUser() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const usernameEl = document.getElementById('username');
+            if (usernameEl && user.username) {
+                usernameEl.textContent = user.username;
+            }
+        }
+
+        // Load user profile data
+        async function loadUserProfile() {
+            try {
+                // This should call your API endpoint to get full user details
+                // For now, using localStorage as example
+                const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+                document.getElementById('displayName').textContent = user.name || '-';
+                document.getElementById('displaySurname').textContent = user.surname || '-';
+                document.getElementById('displayEmail').textContent = user.email || '-';
+                document.getElementById('displayRole').textContent = user.role?.role_name || '-';
+                document.getElementById('displayDepartment').textContent = user.department?.department_name || '-';
+
+                if (user.assigned_at) {
+                    document.getElementById('displayCreated').textContent = new Date(user.assigned_at).toLocaleDateString();
+                }
+                if (user.updated_at) {
+                    document.getElementById('displayUpdated').textContent = new Date(user.updated_at).toLocaleDateString();
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        // Toggle password visibility
+        function togglePassword(fieldId, icon) {
+            const field = document.getElementById(fieldId);
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Check password strength
+        function checkPasswordStrength() {
+            const password = document.getElementById('newPassword').value;
+            const strengthBar = document.getElementById('passwordStrength');
+            const strengthText = document.getElementById('strengthText');
+
+            let strength = 0;
+
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+            strengthBar.className = 'password-strength';
+
+            if (strength === 0) {
+                strengthBar.style.display = 'none';
+                strengthText.textContent = '';
+            } else if (strength <= 2) {
+                strengthBar.classList.add('weak');
+                strengthBar.style.display = 'block';
+                strengthText.textContent = 'Weak password';
+                strengthText.style.color = '#ef4444';
+            } else if (strength === 3) {
+                strengthBar.classList.add('medium');
+                strengthBar.style.display = 'block';
+                strengthText.textContent = 'Medium password';
+                strengthText.style.color = '#f59e0b';
+            } else {
+                strengthBar.classList.add('strong');
+                strengthBar.style.display = 'block';
+                strengthText.textContent = 'Strong password';
+                strengthText.style.color = '#10b981';
+            }
+        }
+
+        // Show alert message
+        function showAlert(type, message) {
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+
+            if (type === 'success') {
+                document.getElementById('successMessage').textContent = message;
+                successAlert.style.display = 'flex';
+                errorAlert.style.display = 'none';
+                setTimeout(() => successAlert.style.display = 'none', 5000);
+            } else {
+                document.getElementById('errorMessage').textContent = message;
+                errorAlert.style.display = 'flex';
+                successAlert.style.display = 'none';
+                setTimeout(() => errorAlert.style.display = 'none', 5000);
+            }
+        }
+
+        function showSuccess(message) {
+            showAlert("success", message);
+        }
+
+        function showError(message) {
+            showAlert("error", message);
+        }
+
+
+        // Update password
+        async function updatePassword() {
+            const userId = localStorage.getItem("user_id");
+            const token = localStorage.getItem("token");
+
+            const newPassword = document.getElementById("newPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (!newPassword || !confirmPassword) {
+                showError("Please fill in all password fields.");
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                showError("Passwords do not match.");
+                return;
+            }
+
+            try {
+                // 1️⃣ Fetch current user
+                const res = await fetch(`http://localhost:3000/api/user/${userId}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) throw new Error("Failed to load user");
+                const userData = await res.json();
+
+                // 2️⃣ Build clean object with only allowed fields
+                const { name, surname, email, role_id, department_id } = userData;
+
+                const updatedUser = {
+                    name,
+                    surname,
+                    email,
+                    role_id,
+                    department_id,
+                    password: newPassword,
+                };
+
+                // 3️⃣ Send update
+                const updateRes = await fetch(`http://localhost:3000/api/user/${userId}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(updatedUser),
+                });
+
+                if (!updateRes.ok) throw new Error(await updateRes.text());
+                showSuccess("Password updated successfully!");
+            } catch (err) {
+                showError("Failed to update password: " + err.message);
+            }
+        }
+
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('user');
+                window.location.href = '../../index.html';
+            }
+        }
+
+        // Initialize
+        displayUser();
+        loadUserProfile();
+        document.addEventListener("DOMContentLoaded", function () {
+            const username = localStorage.getItem("username");
+            const usernameElement = document.getElementById("username");
+
+            if (username) {
+                usernameElement.textContent = username;
+            } else {
+                usernameElement.textContent = "Guest";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

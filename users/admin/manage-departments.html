@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Departments | Admin Panel</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <h4 style="margin: 0; font-weight: 700; font-size: 1.25rem;">
+        <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>Admin Panel
+      </h4>
+    </div>
+    <nav>
+      <a href="admin-dashboard.html">
+        <i class="fas fa-tachometer-alt" style="margin-right: 10px;"></i>Dashboard
+      </a>
+      <div
+        style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+        User Management</div>
+      <a href="manage-users.html">
+        <i class="fas fa-users-cog" style="margin-right: 10px;"></i>Manage Users
+      </a>
+      <a href="manage-roles.html">
+        <i class="fas fa-user-shield" style="margin-right: 10px;"></i>Roles
+      </a>
+      <a href="manage-departments.html" style="background: rgba(37, 99, 235, 0.2); border-left-color: #2563eb;">
+        <i class="fas fa-building" style="margin-right: 10px;"></i>Departments
+      </a>
+      <div
+        style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+        Ticket Management</div>
+      <a href="manage-tickets.html">
+        <i class="fas fa-ticket-alt" style="margin-right: 10px;"></i>All Tickets
+      </a>
+      <a href="manage-categories.html">
+        <i class="fas fa-folder-open" style="margin-right: 10px;"></i>Categories
+      </a>
+      <a href="manage-priorities.html">
+        <i class="fas fa-flag" style="margin-right: 10px;"></i>Priorities
+      </a>
+      <a href="manage-status.html">
+        <i class="fas fa-info-circle" style="margin-right: 10px;"></i>Status Types
+      </a>
+      <a href="manage-assignments.html">
+        <i class="fas fa-tasks" style="margin-right: 10px;"></i>Assignments
+      </a>
+      <div
+        style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+        Analytics</div>
+      <a href="staff-performance.html">
+        <i class="fas fa-chart-line" style="margin-right: 10px;"></i>Staff Performance
+      </a>
+      <a href="system-reports.html">
+        <i class="fas fa-file-chart-pie" style="margin-right: 10px;"></i>Reports
+      </a>
+      <div
+        style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+        System</div>
+      <a href="admin-settings.html">
+        <i class="fas fa-cog" style="margin-right: 10px;"></i>Settings
+      </a>
+      <a href="#" onclick="logout()">
+        <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i>Logout
+      </a>
+    </nav>
+  </div>
+
+  <!-- Content -->
+  <div id="content">
+    <div class="page-header">
+      <h1><i class="fas fa-building" style="margin-right: 12px; color: #06b6d4;"></i>Manage Departments</h1>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button onclick="openAddDeptModal()"
+          style="background: #10b981; border: none; color: white; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;">
+          <i class="fas fa-plus" style="margin-right: 6px;"></i>Add Department
+        </button>
+        <div class="user-info">
+          <i class="fas fa-user-shield" style="margin-right: 6px;"></i>
+          <span id="username">Administrator</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search departments..." oninput="searchDepartments()">
+    </div>
+
+    <!-- Departments Table -->
+    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><i class="fas fa-hashtag" style="margin-right: 6px;"></i>ID</th>
+            <th><i class="fas fa-building" style="margin-right: 6px;"></i>Department Name</th>
+            <th><i class="fas fa-calendar" style="margin-right: 6px;"></i>Created Date</th>
+            <th><i class="fas fa-cog" style="margin-right: 6px;"></i>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="deptTableBody">
+          <!-- Sample Data -->
+          <tr>
+            <td>1</td>
+            <td><i class="fas fa-laptop-code" style="margin-right: 8px; color: #2563eb;"></i>IT Support</td>
+            <td><span class="badge badge-primary">12 Staff</span></td>
+            <td>2024-01-15</td>
+            <td>
+              <button class="btn-warning" onclick="editDept(1)"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn-danger" onclick="deleteDept(1)"><i class="fas fa-trash"></i> Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><i class="fas fa-chart-line" style="margin-right: 8px; color: #10b981;"></i>Finance</td>
+            <td><span class="badge badge-success">8 Staff</span></td>
+            <td>2024-01-15</td>
+            <td>
+              <button class="btn-warning" onclick="editDept(2)"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn-danger" onclick="deleteDept(2)"><i class="fas fa-trash"></i> Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><i class="fas fa-users" style="margin-right: 8px; color: #8b5cf6;"></i>Human Resources</td>
+            <td><span class="badge badge-info">6 Staff</span></td>
+            <td>2024-01-15</td>
+            <td>
+              <button class="btn-warning" onclick="editDept(3)"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn-danger" onclick="deleteDept(3)"><i class="fas fa-trash"></i> Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><i class="fas fa-bullhorn" style="margin-right: 8px; color: #f59e0b;"></i>Marketing</td>
+            <td><span class="badge badge-warning">10 Staff</span></td>
+            <td>2024-01-15</td>
+            <td>
+              <button class="btn-warning" onclick="editDept(4)"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn-danger" onclick="deleteDept(4)"><i class="fas fa-trash"></i> Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="deptModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add Department</h2>
+        <button class="modal-close" onclick="closeDeptModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="deptForm" onsubmit="event.preventDefault(); saveDept();">
+          <input type="hidden" id="deptId">
+          <div>
+            <label for="deptName"><i class="fas fa-building" style="margin-right: 6px;"></i>Department Name</label>
+            <input type="text" id="deptName" required placeholder="Enter department name">
+          </div>
+          <div class="modal-footer">
+            <button type="button" onclick="closeDeptModal()" class="btn btn-secondary">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Department</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="../../js/auth.js"></script>
+  <script src="manage-departments.js"></script>
+
+</body>
+
+</html>

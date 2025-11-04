@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Performance | Staff Portal</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/it-staff.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <h4 style="margin: 0; font-weight: 700; font-size: 1.25rem;">
+        <i class="fas fa-headset" style="margin-right: 8px;"></i>IT Support Portal
+      </h4>
+    </div>
+    <nav>
+      <a href="it-staff.html">
+        <i class="fas fa-tachometer-alt" style="margin-right: 10px;"></i>Dashboard
+      </a>
+      <a href="it-staff-completed-tickets.html">
+        <i class="fas fa-check-circle" style="margin-right: 10px;"></i>Completed Tickets
+      </a>
+      <div style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Performance</div>
+      <a href="it-staff-my-performance.html">
+        <i class="fas fa-chart-line" style="margin-right: 10px;"></i>My Performance
+      </a>
+      <div style="padding: 15px 20px; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Account</div>
+      <a href="it-staff-settings.html">
+        <i class="fas fa-cog" style="margin-right: 10px;"></i>Settings
+      </a>
+      <a href="#" onclick="logout()">
+        <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i>Logout
+      </a>
+    </nav>
+  </div>
+
+  <!-- Content -->
+  <div id="content">
+    <div class="page-header">
+      <h1><i class="fas fa-chart-line text-success me-2"></i>My Performance</h1>
+      <div class="user-info">
+        <i class="fas fa-user-tie"></i>
+        <span id="username"></span>
+      </div>
+    </div>
+
+    <!-- Overview Cards -->
+    <div class="flex flex-wrap gap-15 mb-20">
+      <div class="stat-card border-l-4" style="border-left: 4px solid var(--success-color);">
+        <p class="text-secondary mb-10">Tickets Completed</p>
+        <div class="flex justify-between items-center">
+          <h3 class="text-success">105</h3>
+          <i class="fas fa-check-circle text-success opacity-30"></i>
+        </div>
+      </div>
+
+      <div class="stat-card border-l-4" style="border-left: 4px solid var(--info-color);">
+        <p class="text-secondary mb-10">Avg. Resolution Time</p>
+        <div class="flex justify-between items-center">
+          <h3 class="text-info">2h 15m</h3>
+          <i class="fas fa-stopwatch text-info opacity-30"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Performance Chart -->
+    <div class="card">
+      <h2><i class="fas fa-chart-bar me-2 text-info"></i>Monthly Performance</h2>
+      <canvas id="performanceChart" style="width:100%; max-height: 350px;"></canvas>
+    </div>
+
+    <!-- Summary -->
+    <div class="card mt-20">
+      <h2><i class="fas fa-clipboard-list me-2 text-success"></i>Performance Summary</h2>
+      <p>Overall, your ticket resolution rate has improved by <strong>8%</strong> this month. Keep maintaining high response times and closing tickets efficiently to achieve your target KPIs.</p>
+    </div>
+  </div>
+
+    <!-- Load scripts -->
+  <script src="../../js/auth.js"></script>
+  <script src="it-staff-my-performance.js"></script>
+</body>
+</html>
